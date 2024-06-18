@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 const Model = mongoose.model;
 
 async function main() {
-
     // Create Photo Shcema
     const photoSchema = new Schema({
         title: String,
@@ -11,9 +10,9 @@ async function main() {
         image: String,
         dateCreated: {
             type: Date,
-            default: Date.now()
-        }
-    })
+            default: Date.now(),
+        },
+    });
 
     // Create Photo Model/ Create the collection basec on the created schema
     const Photo = Model('photo', photoSchema);
