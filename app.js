@@ -4,6 +4,7 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const Photo = require('./models/Photo');
+const { get } = require('http');
 
 const port = 3000;
 const app = express();
@@ -18,7 +19,11 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
-app.use(methodOverride('_method'));
+app.use(
+    methodOverride('_method', {
+        methods: ['POST', 'GET'],
+    })
+);
 
 // routes
 // Index page
@@ -78,6 +83,15 @@ app.put('/photos/:id', async (req, res) => {
     photo.save();
 
     res.redirect(`/photos/${req.params.id}`);
+});
+
+// Delete photo
+app.delete('/photos/:id', async (req, res) => {
+    const photo = await Photo.findOne({ _id: req.params.id });
+    let deletedImage = __dirname + '/public' + photo.image;
+    fs.unlinkSync(deletedImage);
+    await Photo.findByIdAndDelete({ _id: req.params.id });
+    res.redirect('/');
 });
 
 app.get('*', (req, res) => {
