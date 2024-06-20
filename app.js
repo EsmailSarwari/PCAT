@@ -1,7 +1,7 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 const methodOverride = require('method-override');
+const mongoose = require('mongoose');
 const fs = require('fs');
 const Photo = require('./models/Photo');
 
@@ -69,14 +69,16 @@ app.get('/photos/edit/:id', async (req, res) => {
         photo,
     });
 });
+
+// update the selected photo
 app.put('/photos/:id', async (req, res) => {
-    const photo = await Photo.findOne({ _id: req.params.id });
-    photo.title = req.body.title
-    photo.description = req.body.description
-    photo.save()
-  
-    res.redirect(`/photos/${req.params.id}`)
-  });
+    const photo = await Photo.findById({ _id: req.params.id });
+    photo.title = req.body.title;
+    photo.description = req.body.description;
+    photo.save();
+
+    res.redirect(`/photos/${req.params.id}`);
+});
 
 app.get('*', (req, res) => {
     res.status(404).send('404 Page Not Found');
