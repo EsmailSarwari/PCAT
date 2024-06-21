@@ -2,10 +2,23 @@ const Photo = require('../models/Photo');
 const fs = require('fs');
 
 exports.getAllPhoto = async (req, res) => {
-    const photos = await Photo.find({});
-    res.render('index', {
-        photos,
-    });
+    try {
+        const page = parseInt(req.query.page, 10) || 1;
+        const photosPerPage = 2;
+        const totalPhoto = await Photo.find({}).countDocuments();
+        const photos = await Photo.find({})
+            .sort('-dateCreated')
+            .skip((page - 1) * photosPerPage)
+            .limit(photosPerPage);
+
+        res.render('index', {
+            photos: photos,
+            current: page, // current active pagination page
+            pages: Math.ceil(totalPhoto / photosPerPage), // number of pages
+        });
+    } catch (error) {
+        res.status(500).send("Internal Server Error");
+    }
 };
 
 exports.getPhoto = async (req, res) => {
