@@ -2,19 +2,28 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
+const app = express();
 
 const photoController = require('./controllers/photoController');
 const pagesController = require('./controllers/pagesController');
 
-const app = express();
-// template engine
+// Template Engine
 app.set('view engine', 'ejs');
 
 // DB Connection
-const port = 3000;
-mongoose.connect('mongodb://localhost/pcat-db');
+const port = process.env.PORT || 4000;
+mongoose
+    .connect(
+        'mongodb+srv://admin:Password@cluster1.qlkzvnz.mongodb.net/pcat-app?retryWrites=true&w=majority&appName=Cluster1'
+    )
+    .then(() => {
+        console.log('DB Connected');
+    })
+    .catch((error) => {
+        console.log('DB Connection Error:', error);
+    });
 
-// Middlewares
+// Middleware
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -25,6 +34,7 @@ app.use(
     })
 );
 
+// Routes
 // photo controllers
 app.get('/', photoController.getAllPhoto);
 app.get('/photos/:id', photoController.getPhoto);
@@ -38,7 +48,7 @@ app.get('/photos/edit/:id', pagesController.getEditPage);
 app.get('/add', pagesController.getAddPage);
 app.get('*', pagesController.getPageNotFound);
 
-// Express & Port
+// Start the server
 app.listen(port, () => {
-    console.log(`server is running on port: ${port}`);
+    console.log(`Server is running on port: ${port}`);
 });
