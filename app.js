@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 const port = process.env.PORT || 4000;
 mongoose
     .connect(
-        'mongodb+srv://admin:Password@cluster1.qlkzvnz.mongodb.net/pcat-app?retryWrites=true&w=majority&appName=Cluster1'
+        'mongodb+srv://admin:admin123@cluster0.h63bb1g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
     )
     .then(() => {
         console.log('DB Connected');
