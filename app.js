@@ -12,9 +12,9 @@ app.set('view engine', 'ejs');
 
 // DB Connection
 const port = process.env.PORT || 4000;
-const url = 'mongodb+srv://admin:admin123@cluster0.h63bb1g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = 'Write your own MongoDB URI';
 mongoose
-    .connect(url)
+    .connect(uri)
     .then(() => {
         console.log('DB Connected');
     })
