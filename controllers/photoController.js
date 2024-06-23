@@ -4,7 +4,7 @@ const fs = require('fs');
 exports.getAllPhoto = async (req, res) => {
     try {
         const page = parseInt(req.query.page, 10) || 1;
-        const photosPerPage = 2;
+        const photosPerPage = 3;
         const totalPhoto = await Photo.find({}).countDocuments();
         const photos = await Photo.find({})
             .sort('-dateCreated')

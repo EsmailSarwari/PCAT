@@ -12,10 +12,9 @@ app.set('view engine', 'ejs');
 
 // DB Connection
 const port = process.env.PORT || 4000;
+const url = 'mongodb+srv://admin:admin123@cluster0.h63bb1g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose
-    .connect(
-        'mongodb+srv://admin:admin123@cluster0.h63bb1g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-    )
+    .connect(url)
     .then(() => {
         console.log('DB Connected');
     })
