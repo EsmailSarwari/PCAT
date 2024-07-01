@@ -3,6 +3,7 @@ const fileUpload = require('express-fileupload');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const app = express();
+require('dotenv').config()
 
 const photoController = require('./controllers/photoController');
 const pagesController = require('./controllers/pagesController');
@@ -12,7 +13,7 @@ app.set('view engine', 'ejs');
 
 // DB Connection
 const port = process.env.PORT || 4000;
-const uri = 'Write your own MongoDB URI';
+const uri = process.env.MONGODB_URL;
 mongoose
     .connect(uri)
     .then(() => {
